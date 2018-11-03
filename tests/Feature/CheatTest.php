@@ -37,4 +37,14 @@ class CheatTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJson($cheats->toArray());
     }
+
+    /** @test **/
+    public function api_can_show_cheat()
+    {
+        $cheat = factory('App\Cheat')->create();
+
+        $response = $this->json('GET', "/api/cheats/{$cheat->uuid}");
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJson($cheat->toArray());
+    }
 }
