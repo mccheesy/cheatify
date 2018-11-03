@@ -28,4 +28,14 @@ class CheatTest extends TestCase
 
         $response->assertStatus(Response::HTTP_CREATED);
     }
+
+    /** @test **/
+    public function a_user_can_list_cheats()
+    {
+        $cheats = factory('App\Cheat', 50)->create();
+
+        $response = $this->json('GET', '/api/cheats');
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJson($cheats->toArray());
+    }
 }
