@@ -14,9 +14,7 @@ class CheatTest extends TestCase
 
     /** @test **/
     public function a_user_can_create_cheats()
-    
-{        $this->artisan('migrate');
-
+    {
         $user = factory('App\User')->create();
         $cheat = [
             'name' => $this->faker->sentence(6, true),
