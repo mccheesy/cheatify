@@ -6,6 +6,7 @@ use App\Cheat;
 use App\Http\Resources\CheatResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CheatController extends Controller
 {
@@ -33,7 +34,7 @@ class CheatController extends Controller
 
     public function update(Request $request, Cheat $cheat)
     {
-        $cheat->update($request->cheat);
+        $cheat->update($request->json('cheat'));
         return new CheatResource($cheat);
     }
 

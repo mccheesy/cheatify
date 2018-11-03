@@ -47,4 +47,24 @@ class CheatTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJson($cheat->toArray());
     }
+
+    /** @test **/
+    public function api_can_edit_cheat()
+    {
+        $cheat = factory('App\Cheat')->create();
+
+        $newCode = $this->faker->bothify('????????');
+        $cheat->code = $newCode;
+        $this->assertTrue($cheat->isDirty());
+
+        $response = $this->json(
+            'PUT',
+            "/api/cheats/{$cheat->uuid}",
+            ['cheat' => $cheat]
+        );
+        $response->assertStatus(Response::HTTP_OK);
+        $updatedCheat = json_decode($response->content());
+
+        $this->assertTrue($updatedCheat->code == $newCode);
+    }
 }
