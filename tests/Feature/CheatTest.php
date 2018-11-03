@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Cheat;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Http\Response;
@@ -66,5 +67,17 @@ class CheatTest extends TestCase
         $updatedCheat = json_decode($response->content());
 
         $this->assertTrue($updatedCheat->code == $newCode);
+    }
+
+    /** @test **/
+    public function api_can_destroy_cheat()
+    {
+        $cheat = factory('App\Cheat')->create();
+
+        $this->assertTrue($cheat->exists());
+        $response = $this->json('DELETE', "/api/cheats/{$cheat->uuid}");
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+
+        $this->assertNull(Cheat::find($cheat->id));
     }
 }
