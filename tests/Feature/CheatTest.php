@@ -13,7 +13,7 @@ class CheatTest extends TestCase
     use WithFaker;
 
     /** @test **/
-    public function a_user_can_create_cheats()
+    public function api_can_create_cheats()
     {
         $user = factory('App\User')->create();
         $cheat = [
@@ -23,14 +23,13 @@ class CheatTest extends TestCase
             'creator_id' => $user->id,
         ];
 
-        $response = $this->actingAs($user)
-                         ->json('POST', '/api/cheats', ['cheat' => $cheat]);
+        $response = $this->json('POST', '/api/cheats', ['cheat' => $cheat]);
 
         $response->assertStatus(Response::HTTP_CREATED);
     }
 
     /** @test **/
-    public function a_user_can_list_cheats()
+    public function api_can_list_cheats()
     {
         $cheats = factory('App\Cheat', 50)->create();
 
