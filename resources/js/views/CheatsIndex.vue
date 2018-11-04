@@ -4,9 +4,17 @@
             <b-col>
                 <h1>Cheats</h1>
             </b-col>
-            <div>
+            <div v-if="is_auth">
                 <b-btn variant="primary" v-b-modal.cheat_form>
                     Add Cheat
+                </b-btn>
+            </div>
+            <div v-else>
+                <b-btn variant="primary" href="/login">
+                    Login
+                </b-btn>
+                <b-btn variant="primary" href="/register">
+                    Register
                 </b-btn>
             </div>
             <div>
@@ -67,6 +75,9 @@ export default {
     computed: {
         form_title() {
             return this.edit_cheat.uuid == null ? 'Save Cheat' : 'Add New Cheat';
+        },
+        is_auth() {
+            return window.is_auth;
         }
     },
     data() {

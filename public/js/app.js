@@ -21485,11 +21485,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
         form_title: function form_title() {
             return this.edit_cheat.uuid == null ? 'Save Cheat' : 'Add New Cheat';
+        },
+        is_auth: function is_auth() {
+            return window.is_auth;
         }
     },
     data: function data() {
@@ -21564,26 +21575,44 @@ var render = function() {
         [
           _c("b-col", [_c("h1", [_vm._v("Cheats")])]),
           _vm._v(" "),
-          _c(
-            "div",
-            [
-              _c(
-                "b-btn",
-                {
-                  directives: [
+          _vm.is_auth
+            ? _c(
+                "div",
+                [
+                  _c(
+                    "b-btn",
                     {
-                      name: "b-modal",
-                      rawName: "v-b-modal.cheat_form",
-                      modifiers: { cheat_form: true }
-                    }
-                  ],
-                  attrs: { variant: "primary" }
-                },
-                [_vm._v("\n                Add Cheat\n            ")]
+                      directives: [
+                        {
+                          name: "b-modal",
+                          rawName: "v-b-modal.cheat_form",
+                          modifiers: { cheat_form: true }
+                        }
+                      ],
+                      attrs: { variant: "primary" }
+                    },
+                    [_vm._v("\n                Add Cheat\n            ")]
+                  )
+                ],
+                1
               )
-            ],
-            1
-          ),
+            : _c(
+                "div",
+                [
+                  _c(
+                    "b-btn",
+                    { attrs: { variant: "primary", href: "/login" } },
+                    [_vm._v("\n                Login\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-btn",
+                    { attrs: { variant: "primary", href: "/register" } },
+                    [_vm._v("\n                Register\n            ")]
+                  )
+                ],
+                1
+              ),
           _vm._v(" "),
           _c(
             "div",
@@ -34678,6 +34707,12 @@ var app = new Vue({
 window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_bootstrap_vue__["default"]);
+
+var is_auth = document.head.querySelector('meta[name="is_auth"]');
+var user = document.head.querySelector('meta[name="user"]');
+
+window.is_auth = is_auth.content ? true : false;
+window.user = user.content;
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
