@@ -13,10 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->group(function() {
+Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
     Route::resource('cheats', 'CheatController')
-         ->except(['create', 'edit']);
+         ->only(['destroy', 'store', 'update']);
 });
+
+Route::resource('cheats', 'CheatController')
+     ->only(['index', 'show']);
