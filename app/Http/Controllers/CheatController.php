@@ -7,6 +7,7 @@ use App\Http\Resources\CheatResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CheatController extends Controller
 {
@@ -17,9 +18,16 @@ class CheatController extends Controller
 
     public function store(Request $request)
     {
-        $cheat = Cheat::create($request->cheat);
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'code' => 'required|string',
+            'description' => 'string'
+        ]);
+        $validatedData['creator_id'] = auth()->user()->id;
+
+        $cheat = Cheat::create($validatedData);
         if (!$cheat) {
-            return JsonResponse(
+            return new JsonResponse(
                 null,
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
