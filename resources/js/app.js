@@ -1,7 +1,6 @@
 import './bootstrap';
 import router from './routes';
 
-Vue.component('cheatify-navbar', require('./components/CheatifyNavbar.vue'));
 Vue.component('cheat-show', require('./components/CheatShow.vue'));
 
 Vue.component('passport-clients', require('./components/passport/Clients.vue'));
