@@ -6,12 +6,12 @@ use App\Traits\HasUuid;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 use Webpatser\Uuid\Uuid;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-    use HasUuid;
+    use HasApiTokens, HasUuid, Notifiable;
 
     protected $fillable = [
         'name', 'email', 'password',
