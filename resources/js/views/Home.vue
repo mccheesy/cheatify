@@ -6,7 +6,7 @@
                     header="Cheatify!"
                     lead="Who needs to git gud when you can chit gud?"
                 >
-                    <b-btn variant="primary" href="/cheats">
+                    <b-btn variant="primary" :to="{ 'name': 'cheat.index' }">
                         Start Cheating
                     </b-btn>
                 </b-jumbotron>
@@ -19,4 +19,4 @@
 export default {
     props: []
 }
-</script>
+</script>s
