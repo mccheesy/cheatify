@@ -7,11 +7,11 @@ use App\User;
 use Tests\TestCase;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CheatTest extends TestCase
 {
-    use WithFaker;
+    use DatabaseMigrations, WithFaker;
 
     /** @test **/
     public function api_can_create_cheats()
