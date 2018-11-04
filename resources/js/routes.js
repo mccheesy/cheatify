@@ -7,9 +7,9 @@ const routes = [
         component: require('./views/Home')
     },
     {
-        name: 'cheat.index',
+        name: 'cheats.index',
         path: '/cheats',
-        component: require('./views/Cheats')
+        component: require('./views/CheatsIndex')
     }
 ];
 

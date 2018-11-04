@@ -10,7 +10,7 @@
                 </b-btn>
             </div>
             <div>
-                <cheat-show
+                <cheats-show
                     v-for="cheat in cheats"
                     :key="cheat.uuid"
                     :cheat=cheat />
@@ -66,25 +66,26 @@
 export default {
     computed: {
         form_title() {
-            return this.edit_cheat.uuid.length > 0 ? 'Save Cheat' : 'Add New Cheat';
+            return this.edit_cheat.uuid == null ? 'Save Cheat' : 'Add New Cheat';
         }
     },
     data() {
         return {
             cheats: [],
             edit_cheat: {
-                'name': '',
-                'code': '',
-                'description': '',
-                'uuid': ''
+                'name': null,
+                'code': null,
+                'description': null,
+                'uuid': null
             }
         }
     },
     methods: {
         clearForm() {
-            this.edit_cheat.name = '',
-            this.edit_cheat.code = '',
-            this.edit_cheat.description = ''
+            this.edit_cheat.name = null,
+            this.edit_cheat.code = null,
+            this.edit_cheat.description = null,
+            this.edit_cheat.uuid = null
         },
         saveCheat() {
             this.saveCheat();
@@ -93,21 +94,32 @@ export default {
         },
         submitForm(e) {
             e.preventDefault();
-            if (this.edit_cheat.uuid.length > 0) {
-                axios.put(
-                    `/api/cheats/${this.edit_cheat.uuid}`,
-                    {cheat: this.edit_cheat}
-                );
-            } else {
-                axios.post('/api/cheats', {cheat: this.edit_cheat});
+            var method = 'POST';
+            var url = '/api/cheats';
+            if (this.edit_cheat.uuid != null) {
+                method = 'PUT';
+                url = `/api/cheats/${this.edit_cheat.uuid}`;
             }
+            axios({
+                method,
+                url,
+                data: {
+                    name: this.edit_cheat.name,
+                    code: this.edit_cheat.code,
+                    description: this.edit_cheat.description,
+                    uuid: this.edit_cheat.uuid
+                }
+            });
+        },
+        refreshCheats() {
+            axios({ method: 'GET', url: '/api/cheats' })
+            .then(({ data }) => {
+                this.cheats = data;
+            });
         }
     },
     mounted() {
-        axios.get('/api/cheats')
-        .then(({ data }) => {
-            this.cheats = data;
-        });
+        this.refreshCheats();
     }
 }
 </script>
