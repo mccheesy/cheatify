@@ -11,7 +11,7 @@
     </head>
     <body>
         <div id="app">
-            <cheatify-navbar/>
+            <cheatify-navbar></cheatify-navbar>
             <router-view></router-view>
         </div>
     </body>
