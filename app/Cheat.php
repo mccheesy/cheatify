@@ -18,6 +18,10 @@ class Cheat extends Model
         'id',
     ];
 
+    protected $with = [
+        'creator',
+    ];
+
     public function creator()
     {
         return $this->belongsTo('App\User', 'creator_id');
