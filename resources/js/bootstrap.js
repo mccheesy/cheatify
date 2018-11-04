@@ -7,6 +7,12 @@ window.Vue = Vue;
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 
+const is_auth = document.head.querySelector('meta[name="is_auth"]');
+const user = document.head.querySelector('meta[name="user"]');
+
+window.is_auth = is_auth.content ? true : false;
+window.user = user.content;
+
 const token = document.head.querySelector('meta[name="csrf-token"]');
 
 window.axios = axios;
