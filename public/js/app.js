@@ -21493,6 +21493,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
@@ -21511,20 +21514,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'code': null,
                 'description': null,
                 'uuid': null
-            }
+            },
+            is_editing: false
         };
     },
 
     methods: {
         clearForm: function clearForm() {
-            this.edit_cheat.name = null, this.edit_cheat.code = null, this.edit_cheat.description = null, this.edit_cheat.uuid = null;
+            if (!this.is_editing) {
+                this.edit_cheat.name = null;
+                this.edit_cheat.code = null;
+                this.edit_cheat.description = null;
+                this.edit_cheat.uuid = null;
+            }
         },
-        saveCheat: function saveCheat() {
-            this.saveCheat();
-            this.clearForm();
-            this.$refs.modal.hide();
+        editCheat: function editCheat(cheat) {
+            this.is_editing = true;
+            this.edit_cheat.name = cheat.name;
+            this.edit_cheat.code = cheat.code;
+            this.edit_cheat.description = cheat.description;
+            this.edit_cheat.uuid = cheat.uuid;
+            this.$refs.cheatModal.show();
+        },
+        hideForm: function hideForm() {
+            this.is_editing = false;
         },
         submitForm: function submitForm(e) {
+            var _this = this;
+
             e.preventDefault();
             var method = 'POST';
             var url = '/api/cheats';
@@ -21541,15 +21558,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     description: this.edit_cheat.description,
                     uuid: this.edit_cheat.uuid
                 }
+            }).then(function () {
+                _this.$refs.cheatModal.hide();
+                _this.refreshCheats();
             });
         },
         refreshCheats: function refreshCheats() {
-            var _this = this;
+            var _this2 = this;
 
             axios({ method: 'GET', url: '/api/cheats' }).then(function (_ref) {
                 var data = _ref.data;
 
-                _this.cheats = data;
+                _this2.cheats = data;
             });
         }
     },
@@ -21619,7 +21639,8 @@ var render = function() {
             _vm._l(_vm.cheats, function(cheat) {
               return _c("cheats-show", {
                 key: cheat.uuid,
-                attrs: { cheat: cheat }
+                attrs: { cheat: cheat },
+                on: { edit: _vm.editCheat }
               })
             })
           )
@@ -21630,25 +21651,17 @@ var render = function() {
       _c(
         "b-modal",
         {
+          ref: "cheatModal",
           attrs: {
             id: "cheat_form",
-            title: _vm.form_title,
-            "ok-title": "Save"
+            "ok-title": "Save",
+            title: _vm.form_title
           },
-          on: { ok: _vm.submitForm, shown: _vm.clearForm }
+          on: { hide: _vm.hideForm, ok: _vm.submitForm, shown: _vm.clearForm }
         },
         [
           _c(
             "b-form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.stopPropagation()
-                  $event.preventDefault()
-                  return _vm.saveCheat($event)
-                }
-              }
-            },
             [
               _c(
                 "b-form-group",
@@ -24001,8 +24014,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        is_auth: function is_auth() {
+            return window.is_auth;
+        }
+    },
     props: ['cheat']
 });
 
@@ -24020,18 +24047,41 @@ var render = function() {
     [
       _c("b-media", [
         _c("h5", [
-          _c("strong", [_vm._v(_vm._s(this.cheat.name))]),
+          _c("strong", [_vm._v(_vm._s(_vm.cheat.name))]),
           _vm._v(" "),
           _c("small", { staticClass: "text-muted" }, [
-            _vm._v(_vm._s(this.cheat.code))
+            _vm._v("Code: " + _vm._s(_vm.cheat.code))
           ])
         ]),
         _vm._v(" "),
-        _c("p", [_vm._v(_vm._s(this.cheat.description))]),
+        _c("p", [_vm._v(_vm._s(_vm.cheat.description))]),
         _vm._v(" "),
-        _c("p", { staticClass: "text-right" }, [
-          _vm._v("@" + _vm._s(this.cheat.creator.name))
-        ])
+        _c(
+          "p",
+          { staticClass: "text-right" },
+          [
+            _vm._v(
+              "\n            @" +
+                _vm._s(_vm.cheat.creator.name) +
+                "\n            "
+            ),
+            _vm.is_auth
+              ? _c(
+                  "b-btn",
+                  {
+                    attrs: { size: "sm", variant: "outline-info" },
+                    on: {
+                      click: function($event) {
+                        _vm.$emit("edit", _vm.cheat)
+                      }
+                    }
+                  },
+                  [_vm._v("\n                Edit\n            ")]
+                )
+              : _vm._e()
+          ],
+          1
+        )
       ])
     ],
     1
