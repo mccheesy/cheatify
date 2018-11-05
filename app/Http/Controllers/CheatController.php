@@ -42,7 +42,13 @@ class CheatController extends Controller
 
     public function update(Request $request, Cheat $cheat)
     {
-        $cheat->update($request->json('cheat'));
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'code' => 'required|string',
+            'description' => 'string'
+        ]);
+        $validatedData['creator_id'] = auth()->user()->id;
+        $cheat->update($validatedData);
         return new CheatResource($cheat);
     }
 
