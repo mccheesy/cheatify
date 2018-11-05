@@ -13,6 +13,6 @@
 
 Route::any('{all}', function () {
     return view('welcome');
-})->where(['all' => '(?!login)(?!logout)(?!register).*(?<!\.css)(?<!\.js)(?<!\.map)']);
+})->where(['all' => '(?!login)(?!logout)(?!register).*(?<!\.css)(?<!\.js)(?<!\.map)(?<!\.ico)']);
 
 Auth::routes();
