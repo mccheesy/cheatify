@@ -20,6 +20,7 @@
             <div>
                 <cheats-show
                     v-for="cheat in cheats"
+                    v-on:edit="editCheat"
                     :key="cheat.uuid"
                     :cheat=cheat />
             </div>
@@ -27,11 +28,13 @@
 
         <b-modal
             id="cheat_form"
-            :title="form_title"
+            @hide="hideForm"
             ok-title="Save"
             @ok="submitForm"
-            @shown="clearForm">
-            <b-form @submit.stop.prevent="saveCheat">
+            ref="cheatModal"
+            @shown="clearForm"
+            :title="form_title">
+            <b-form>
                 <b-form-group
                     label="Name"
                     label-for="cheat_name"
@@ -88,20 +91,29 @@ export default {
                 'code': null,
                 'description': null,
                 'uuid': null
-            }
+            },
+            is_editing: false
         }
     },
     methods: {
         clearForm() {
-            this.edit_cheat.name = null,
-            this.edit_cheat.code = null,
-            this.edit_cheat.description = null,
-            this.edit_cheat.uuid = null
+            if (!this.is_editing) {
+                this.edit_cheat.name = null;
+                this.edit_cheat.code = null;
+                this.edit_cheat.description = null;
+                this.edit_cheat.uuid = null;
+            }
         },
-        saveCheat() {
-            this.saveCheat();
-            this.clearForm();
-            this.$refs.modal.hide();
+        editCheat(cheat) {
+            this.is_editing = true;
+            this.edit_cheat.name = cheat.name;
+            this.edit_cheat.code = cheat.code;
+            this.edit_cheat.description = cheat.description;
+            this.edit_cheat.uuid = cheat.uuid;
+            this.$refs.cheatModal.show();
+        },
+        hideForm() {
+            this.is_editing = false;
         },
         submitForm(e) {
             e.preventDefault();
@@ -120,6 +132,9 @@ export default {
                     description: this.edit_cheat.description,
                     uuid: this.edit_cheat.uuid
                 }
+            }).then(() => {
+                this.$refs.cheatModal.hide();
+                this.refreshCheats();
             });
         },
         refreshCheats() {
