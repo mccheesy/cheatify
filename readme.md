@@ -23,8 +23,7 @@ git clone git@github.com:mccheesy/cheatify.git
 cd cheatify
 composer install
 ```
-** Laravel Dusk requires manual installation
-** *only required to run browser tests*
+Laravel Dusk requires manual installation ***only required to run browser tests*
 ```bash
 composer require --dev laravel/dusk
 ```
