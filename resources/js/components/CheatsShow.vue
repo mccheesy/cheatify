@@ -12,7 +12,7 @@
                     @click="$emit('edit', cheat)"
                     size="sm"
                     variant="outline-info"
-                    v-if="is_auth">
+                    v-if="userCanEdit">
                     Edit
                 </b-btn>
             </p>
@@ -23,8 +23,9 @@
 <script>
 export default {
     computed: {
-        is_auth() {
-            return window.is_auth;
+        userCanEdit() {
+            return window.is_auth
+                && window.user == this.cheat.creator.uuid;
         }
     },
     props: [
