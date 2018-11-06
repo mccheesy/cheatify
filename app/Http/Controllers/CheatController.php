@@ -21,7 +21,7 @@ class CheatController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'code' => 'required|string',
-            'description' => 'string'
+            'description' => 'nullable|string'
         ]);
         $validatedData['creator_id'] = auth()->user()->id;
 
