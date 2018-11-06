@@ -18,20 +18,55 @@
 git clone git@github.com:mccheesy/cheatify.git
 ```
 
-2. Run the migrations
+2. Install composer packages
 ```bash
 cd cheatify
-php artisan migrate
+composer install
+```
+** Laravel Dusk requires manual installation
+** *only required to run browser tests*
+```bash
+composer require --dev laravel/dusk
 ```
 
-3. Customize the .env file
+3. Install npm packages
+```bash 
+npm install
+```
+
+4. Compile JavaScript & CSS assets
+```bash
+npm run prod
+``` 
+
+5. Copy the example environment file
 ```bash
 cp .env.example .env
-vi .env
 ```
 
-4. Navigate to the site
-5. Enjoy!
+6. Generate the Laravel APP_KEY
+```bash
+php artisan key:generate
+```
+
+7. Customize the .env file with connection details for an available database and user *or create a database named cheatify and a user named cheatify with the password secret*
+```
+DB_CONNECTION=mysql 
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE={{DATABASE}}
+DB_USERNAME={{USERNAME}}
+DB_PASSWORD={{PASSWORD}}
+```
+
+8. Run the migrations & generate Passport keys
+```bash
+php artisan migrate
+php artisan passport:keys
+```
+
+9. Navigate to the site
+10. Enjoy!
 
 ## Feedback?
 

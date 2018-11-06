@@ -4,26 +4,34 @@
             <b-col>
                 <h1>Cheats</h1>
             </b-col>
-            <div v-if="is_auth">
-                <b-btn variant="primary" v-b-modal.cheat_form>
-                    Add Cheat
-                </b-btn>
-            </div>
-            <div v-else>
-                <b-btn variant="primary" href="/login">
-                    Login
-                </b-btn>
-                <b-btn variant="primary" href="/register">
-                    Register
-                </b-btn>
-            </div>
-            <div>
-                <cheats-show
-                    v-for="cheat in cheats"
-                    v-on:edit="editCheat"
-                    :key="cheat.uuid"
-                    :cheat=cheat />
-            </div>
+            <b-col>
+                <div class="float-right">
+                    <div v-if="is_auth">
+                        <b-btn variant="primary" v-b-modal.cheat_form>
+                            Add Cheat
+                        </b-btn>
+                    </div>
+                    <div v-else>
+                        <b-btn variant="primary" href="/login">
+                            Login
+                        </b-btn>
+                        <b-btn variant="primary" href="/register">
+                            Register
+                        </b-btn>
+                    </div>
+                </div>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <div>
+                    <cheats-show
+                        v-for="cheat in cheats"
+                        v-on:edit="editCheat"
+                        :key="cheat.uuid"
+                        :cheat=cheat />
+                </div>
+            </b-col>
         </b-row>
 
         <b-modal
