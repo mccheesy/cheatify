@@ -71,14 +71,12 @@ class CheatTest extends TestCase
 
         // set a new code
         $newCode = $this->faker->bothify('????????');
-        $cheat->code = $newCode;
-        $this->assertTrue($cheat->isDirty());
 
         // update the cheat
         $response = $this->actingAs($user, 'api')->json(
             'PUT',
             "/api/cheats/{$cheat->uuid}",
-            ['cheat' => $cheat]
+            ['code' => $newCode]
         );
         $response->assertStatus(Response::HTTP_OK);
         $updatedCheat = json_decode($response->content());
