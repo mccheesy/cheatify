@@ -18,6 +18,8 @@ class CheatTest extends TestCase
     public function api_can_list_cheats()
     {
         $cheats = factory('App\Cheat', 50)->create();
+        $ids = $cheats->pluck('id');
+        $cheats = Cheat::whereIn('id', $ids)->get();
 
         $response = $this->json('GET', '/api/cheats');
         $response->assertStatus(Response::HTTP_OK);
